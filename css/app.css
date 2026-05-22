@@ -355,6 +355,10 @@ dialog::backdrop {
   color: var(--title);
 }
 
+.dialog-focus-target:focus {
+  outline: none;
+}
+
 .field {
   margin-bottom: 14px;
 }

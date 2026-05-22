@@ -18,10 +18,44 @@ const els = {
   pickMonth: document.getElementById("pick-month"),
   anchorYear: document.getElementById("anchor-year"),
   anchorMonth: document.getElementById("anchor-month"),
+  anchorDay: document.getElementById("anchor-day"),
   anchorShift: document.querySelectorAll('input[name="anchor-shift"]'),
 };
 
-function fillAnchorDatePicker(year, month) {
+function focusDialogWithoutSelectPicker(dialog) {
+  const initial = dialog.querySelector("[data-dialog-initial-focus]");
+  const title = dialog.querySelector(".dialog-focus-target");
+  const target = initial || title;
+  if (!target) return;
+  target.focus({ preventScroll: true });
+  if (document.activeElement?.tagName === "SELECT") {
+    document.activeElement.blur();
+    target.focus({ preventScroll: true });
+  }
+}
+
+function showDialog(dialog) {
+  dialog.showModal();
+  requestAnimationFrame(() => {
+    focusDialogWithoutSelectPicker(dialog);
+    setTimeout(() => focusDialogWithoutSelectPicker(dialog), 0);
+  });
+}
+
+function fillAnchorDayOptions(year, month, selectedDay) {
+  const daysInMonth = DateUtils.daysInMonth(year, month);
+  const day = Math.min(selectedDay, daysInMonth);
+  els.anchorDay.innerHTML = "";
+  for (let d = 1; d <= daysInMonth; d++) {
+    const opt = document.createElement("option");
+    opt.value = String(d);
+    opt.textContent = `${d}일`;
+    if (d === day) opt.selected = true;
+    els.anchorDay.appendChild(opt);
+  }
+}
+
+function fillAnchorDatePicker(year, month, day) {
   els.anchorYear.innerHTML = "";
   for (let y = year - 10; y <= year + 10; y++) {
     const opt = document.createElement("option");
@@ -39,6 +73,15 @@ function fillAnchorDatePicker(year, month) {
     if (m === month) opt.selected = true;
     els.anchorMonth.appendChild(opt);
   }
+
+  fillAnchorDayOptions(year, month, day);
+}
+
+function syncAnchorDayOptions() {
+  const year = Number(els.anchorYear.value);
+  const month = Number(els.anchorMonth.value);
+  const prevDay = Number(els.anchorDay.value) || 1;
+  fillAnchorDayOptions(year, month, prevDay);
 }
 
 function initViewFromToday() {
@@ -58,7 +101,7 @@ function openMonthPicker() {
     els.pickYear.appendChild(opt);
   }
   els.pickMonth.value = String(viewMonth);
-  els.dlgMonth.showModal();
+  showDialog(els.dlgMonth);
 }
 
 function applyMonthPick() {
@@ -68,19 +111,18 @@ function applyMonthPick() {
 }
 
 function openSettings() {
-  const { year, month } = DateUtils.fromEpochDay(store.anchorEpochDay);
-  fillAnchorDatePicker(year, month);
+  const { year, month, day } = DateUtils.fromEpochDay(store.anchorEpochDay);
+  fillAnchorDatePicker(year, month, day);
   for (const radio of els.anchorShift) {
     radio.checked = radio.value === store.anchorShift;
   }
-  els.dlgSettings.showModal();
+  showDialog(els.dlgSettings);
 }
 
 function saveSettings() {
   const y = Number(els.anchorYear.value);
   const m = Number(els.anchorMonth.value);
-  const prevDay = DateUtils.fromEpochDay(store.anchorEpochDay).day;
-  const d = Math.min(prevDay, DateUtils.daysInMonth(y, m));
+  const d = Number(els.anchorDay.value);
   const shift =
     [...els.anchorShift].find((r) => r.checked)?.value === ShiftType.ON_DUTY
       ? ShiftType.ON_DUTY
@@ -202,6 +244,8 @@ function bind() {
 
   document.getElementById("settings-save").addEventListener("click", saveSettings);
   document.getElementById("settings-cancel").addEventListener("click", () => els.dlgSettings.close());
+  els.anchorYear.addEventListener("change", syncAnchorDayOptions);
+  els.anchorMonth.addEventListener("change", syncAnchorDayOptions);
 }
 
 initViewFromToday();

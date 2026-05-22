@@ -74,9 +74,8 @@
 
     <dialog id="dlg-month">
       <div class="dialog-body">
-        <h2>연·월 선택</h2>
+        <h2 class="dialog-focus-target" tabindex="-1">연·월 선택</h2>
         <div class="picker-row">
-          <select id="pick-year" aria-label="연도"></select>
           <select id="pick-month" aria-label="월">
             <option value="1">1월</option>
             <option value="2">2월</option>
@@ -91,9 +90,10 @@
             <option value="11">11월</option>
             <option value="12">12월</option>
           </select>
+          <select id="pick-year" aria-label="연도"></select>
         </div>
         <div class="dialog-actions">
-          <button type="button" class="btn-secondary" id="month-pick-cancel">취소</button>
+          <button type="button" class="btn-secondary" id="month-pick-cancel" data-dialog-initial-focus>취소</button>
           <button type="button" class="btn-primary" id="month-pick-ok">확인</button>
         </div>
       </div>
@@ -101,14 +101,7 @@
 
     <dialog id="dlg-settings">
       <div class="dialog-body">
-        <h2>기준일 설정</h2>
-        <div class="field">
-          <label>기준 날짜</label>
-          <div class="picker-row anchor-date-picker">
-            <select id="anchor-year" aria-label="연도"></select>
-            <select id="anchor-month" aria-label="월"></select>
-          </div>
-        </div>
+        <h2 class="dialog-focus-target" tabindex="-1">기준일 설정</h2>
         <div class="field">
           <label>그날의 근무</label>
           <div class="radio-row">
@@ -116,8 +109,16 @@
             <label><input type="radio" name="anchor-shift" value="ON_DUTY" /> 당직</label>
           </div>
         </div>
+        <div class="field">
+          <label>기준 날짜</label>
+          <div class="picker-row anchor-date-picker">
+            <select id="anchor-year" aria-label="연도"></select>
+            <select id="anchor-month" aria-label="월"></select>
+            <select id="anchor-day" aria-label="일"></select>
+          </div>
+        </div>
         <div class="dialog-actions">
-          <button type="button" class="btn-secondary" id="settings-cancel">취소</button>
+          <button type="button" class="btn-secondary" id="settings-cancel" data-dialog-initial-focus>취소</button>
           <button type="button" class="btn-primary" id="settings-save">저장</button>
         </div>
       </div>
