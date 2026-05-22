@@ -1,0 +1,385 @@
+:root {
+  --bg: #f5f5f5;
+  --card: #fff;
+  --title: #212121;
+  --text: #212121;
+  --text-on-dark: #fff;
+  --adjacent: #bdbdbd;
+  --header: #616161;
+  --sunday: #c62828;
+  --saturday: #1565c0;
+  --sunday-on-dark: #ff8a80;
+  --saturday-on-dark: #82b1ff;
+  --today-dot: #c62828;
+  --mark-stroke: #333;
+  --mark-inner: #fff;
+  --mark-duty-fill: #212121;
+  --mark-duty-text: #fff;
+  --caption: #757575;
+  --btn-bg: #eee;
+  --radius-mark: 9px;
+  --mark-size: 38px;
+  --today-circle: 30px;
+  --day-font: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --card: #1e1e1e;
+    --title: #e0e0e0;
+    --text: #e0e0e0;
+    --adjacent: #616161;
+    --header: #9e9e9e;
+    --sunday: #ef5350;
+    --saturday: #42a5f5;
+    --today-dot: #ef5350;
+    --mark-stroke: #e0e0e0;
+    --mark-inner: #2c2c2c;
+    --mark-duty-fill: #e8e8e8;
+    --mark-duty-text: #212121;
+    --caption: #9e9e9e;
+    --btn-bg: #2c2c2c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12px 12px 24px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.icon-btn {
+  border: none;
+  background: var(--btn-bg);
+  color: var(--title);
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.text-btn {
+  border: none;
+  background: transparent;
+  color: var(--header);
+  font-size: 13px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.month-title {
+  border: none;
+  background: transparent;
+  color: var(--title);
+  font-size: 20px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--header);
+  margin-bottom: 4px;
+}
+
+.weekdays .sun {
+  color: var(--sunday);
+}
+.weekdays .sat {
+  color: var(--saturday);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+
+.day-mark {
+  width: var(--mark-size);
+  height: var(--mark-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-mark);
+}
+
+.day-mark.mark-regular {
+  border: 2px solid var(--mark-stroke);
+  background: var(--mark-inner);
+}
+
+.day-mark.mark-duty {
+  background: var(--mark-duty-fill);
+}
+
+.day-number-wrap {
+  width: var(--today-circle);
+  height: var(--today-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.day-number-wrap.is-today {
+  background: var(--today-dot);
+}
+
+.day-number {
+  font-size: var(--day-font);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.day-number.color-default {
+  color: var(--text);
+}
+.day-number.color-adjacent {
+  color: var(--adjacent);
+}
+.day-number.color-sunday {
+  color: var(--sunday);
+}
+.day-number.color-saturday {
+  color: var(--saturday);
+}
+.day-number.color-on-dark,
+.day-number.color-duty,
+.day-number.color-sunday-on-dark,
+.day-number.color-saturday-on-dark {
+  color: var(--text-on-dark);
+}
+
+.day-mark.mark-duty .day-number.color-duty {
+  color: var(--mark-duty-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .day-mark.mark-duty .day-number.color-duty {
+    color: var(--mark-duty-text);
+  }
+}
+
+.go-today-row {
+  text-align: center;
+  margin: 10px 0 14px;
+}
+
+.legend {
+  margin-top: 4px;
+}
+
+.legend h2 {
+  font-size: 13px;
+  margin: 0 0 8px;
+  color: var(--title);
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  font-size: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.swatch-regular {
+  border: 2px solid var(--mark-stroke);
+  background: var(--mark-inner);
+}
+
+.swatch-duty {
+  background: var(--mark-duty-fill);
+}
+
+.swatch-today {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--today-dot);
+  color: var(--text-on-dark);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-caption {
+  color: var(--caption);
+  font-size: 10px;
+}
+
+dialog {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  max-width: calc(100vw - 32px);
+  background: var(--card);
+  color: var(--text);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.dialog-body {
+  padding: 20px;
+  min-width: 280px;
+}
+
+.dialog-body h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  color: var(--title);
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--title);
+}
+
+.field input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--mark-stroke);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.radio-row {
+  display: flex;
+  gap: 16px;
+  font-size: 15px;
+}
+
+.picker-row {
+  display: flex;
+  gap: 8px;
+}
+
+.picker-row select {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--mark-stroke);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dialog-actions button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--mark-duty-fill);
+  color: var(--text-on-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-primary {
+    color: var(--mark-duty-text);
+  }
+}
+
+.btn-secondary {
+  background: var(--btn-bg);
+  color: var(--title);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--caption);
+  margin-top: 8px;
+  line-height: 1.4;
+}
