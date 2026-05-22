@@ -44,9 +44,16 @@ git push -u origin main
 3. GitHub 저장소 → **Settings** → **Pages**
    - Source: **Deploy from a branch**
    - Branch: `main` / folder: **`/ (root)`**
-4. 몇 분 후 접속: `https://<사용자명>.github.io/dadCalendar_io/`
+4. **Settings → Pages → Build and deployment → Source:** `GitHub Actions`  
+   (또는 Source: `Deploy from a branch`, Branch: `main`, Folder: `/ (root)`)
+
+5. 배포 후 접속 (본인 계정 기준):
+
+   **https://choeinhyo825.github.io/dadCalendar_io/**
 
 iPhone Safari에서 위 URL을 열고 **공유 → 홈 화면에 추가**하면 앱처럼 쓸 수 있습니다.
+
+> 첫 배포는 push 후 Actions 탭에서 workflow가 성공할 때까지 1~3분 걸릴 수 있습니다.
 
 ## Android 프로젝트와의 관계
 
