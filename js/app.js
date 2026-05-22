@@ -34,9 +34,10 @@ function focusDialogWithoutSelectPicker(dialog) {
   }
 }
 
-function showDialog(dialog) {
+function showDialog(dialog, afterOpen) {
   dialog.showModal();
   requestAnimationFrame(() => {
+    afterOpen?.();
     focusDialogWithoutSelectPicker(dialog);
     setTimeout(() => focusDialogWithoutSelectPicker(dialog), 0);
   });
@@ -79,6 +80,7 @@ function fillAnchorDatePicker(year, month, day) {
 }
 
 function syncAnchorDayOptions() {
+  if (!els.anchorDay) return;
   const year = Number(els.anchorYear.value);
   const month = Number(els.anchorMonth.value);
   const prevDay = Number(els.anchorDay.value) || 1;
@@ -113,11 +115,11 @@ function applyMonthPick() {
 
 function openSettings() {
   const { year, month, day } = DateUtils.fromEpochDay(store.anchorEpochDay);
-  fillAnchorDatePicker(year, month, day);
   for (const radio of els.anchorShift) {
     radio.checked = radio.value === store.anchorShift;
   }
-  showDialog(els.dlgSettings);
+  // iOS Safari: select options must be filled after the dialog is open
+  showDialog(els.dlgSettings, () => fillAnchorDatePicker(year, month, day));
 }
 
 function saveSettings() {
