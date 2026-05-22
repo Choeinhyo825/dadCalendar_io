@@ -56,8 +56,8 @@ export function dayNumberColor(epochDay, shift, isCurrentMonth, isToday) {
   if (!isCurrentMonth) return "adjacent";
   if (isToday) return "on-dark";
   if (shift === ShiftType.ON_DUTY) {
-    if (DateUtils.isSunday(epochDay)) return "sunday-on-dark";
-    if (DateUtils.isSaturday(epochDay)) return "saturday-on-dark";
+    if (DateUtils.isSunday(epochDay)) return "sunday";
+    if (DateUtils.isSaturday(epochDay)) return "saturday";
     return "duty";
   }
   if (DateUtils.isSunday(epochDay)) return "sunday";

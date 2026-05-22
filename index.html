@@ -7,19 +7,30 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="아빠 달력" />
     <title>아빠 달력</title>
+    <link rel="icon" href="icons/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="css/app.css" />
   </head>
   <body>
+    <div id="file-protocol-hint" class="file-hint" hidden>
+      <p>
+        <strong>달력 숫자가 안 보이면</strong> HTML 파일을 직접 연 상태일 수 있습니다.
+        PowerShell에서 <code>.\scripts\serve-local.ps1</code> 실행 후
+        <a href="http://localhost:8080/">http://localhost:8080</a> (또는 스크립트가 안내한 포트)로 접속하세요.
+      </p>
+    </div>
     <div class="app">
       <div class="card">
         <div class="toolbar">
-          <div class="toolbar-actions">
-            <button type="button" class="icon-btn" id="btn-settings" aria-label="기준일 설정">⚙</button>
-          </div>
           <div class="month-nav">
             <button type="button" class="icon-btn" id="btn-prev" aria-label="이전 달">‹</button>
             <button type="button" class="month-title" id="month-title" aria-label="연·월 선택">2026년 1월</button>
             <button type="button" class="icon-btn" id="btn-next" aria-label="다음 달">›</button>
+          </div>
+          <div class="toolbar-actions">
+            <button type="button" class="icon-btn" id="btn-settings" aria-label="기준일 설정">⚙</button>
           </div>
         </div>
 
@@ -51,16 +62,10 @@
             </div>
           </div>
           <div class="legend-item">
-            <span class="swatch swatch-today">21</span>
+            <span class="swatch swatch-today">31</span>
             <div>
               <div>오늘</div>
               <div class="legend-caption">붉은 원·흰 숫자</div>
-            </div>
-          </div>
-          <div class="legend-item">
-            <div>
-              <div>휴무</div>
-              <div class="legend-caption">숫자만 표시</div>
             </div>
           </div>
         </div>
@@ -108,7 +113,6 @@
             <label><input type="radio" name="anchor-shift" value="ON_DUTY" /> 당직</label>
           </div>
         </div>
-        <p class="hint">저장 시 설정만 적용됩니다. (수동 변경 없음)</p>
         <div class="dialog-actions">
           <button type="button" class="btn-secondary" id="settings-cancel">취소</button>
           <button type="button" class="btn-primary" id="settings-save">저장</button>
@@ -116,6 +120,11 @@
       </div>
     </dialog>
 
+    <script>
+      if (location.protocol === "file:") {
+        document.getElementById("file-protocol-hint").hidden = false;
+      }
+    </script>
     <script type="module" src="js/app.js"></script>
   </body>
 </html>
