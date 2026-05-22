@@ -43,6 +43,7 @@ function showDialog(dialog) {
 }
 
 function fillAnchorDayOptions(year, month, selectedDay) {
+  if (!els.anchorDay) return;
   const daysInMonth = DateUtils.daysInMonth(year, month);
   const day = Math.min(selectedDay, daysInMonth);
   els.anchorDay.innerHTML = "";
@@ -122,7 +123,7 @@ function openSettings() {
 function saveSettings() {
   const y = Number(els.anchorYear.value);
   const m = Number(els.anchorMonth.value);
-  const d = Number(els.anchorDay.value);
+  const d = Number(els.anchorDay?.value) || 1;
   const shift =
     [...els.anchorShift].find((r) => r.checked)?.value === ShiftType.ON_DUTY
       ? ShiftType.ON_DUTY

@@ -346,7 +346,8 @@ dialog::backdrop {
 
 .dialog-body {
   padding: 20px;
-  min-width: 280px;
+  min-width: min(100%, 300px);
+  box-sizing: border-box;
 }
 
 .dialog-body h2 {
@@ -371,9 +372,20 @@ dialog::backdrop {
   color: var(--title);
 }
 
-.anchor-date-picker select {
-  flex: 1;
+.picker-row.anchor-date-picker {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 1.25fr) minmax(4.2rem, 1fr) minmax(3.8rem, 0.9fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.picker-row.anchor-date-picker select {
+  flex: none;
+  width: 100%;
   min-width: 0;
+  max-width: 100%;
+  -webkit-appearance: menulist;
+  appearance: auto;
 }
 
 .radio-row {
