@@ -103,8 +103,11 @@
       <div class="dialog-body">
         <h2>기준일 설정</h2>
         <div class="field">
-          <label for="anchor-date">기준 날짜</label>
-          <input type="date" id="anchor-date" />
+          <label>기준 날짜</label>
+          <div class="picker-row anchor-date-picker">
+            <select id="anchor-year" aria-label="연도"></select>
+            <select id="anchor-month" aria-label="월"></select>
+          </div>
         </div>
         <div class="field">
           <label>그날의 근무</label>

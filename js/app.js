@@ -16,9 +16,30 @@ const els = {
   dlgSettings: document.getElementById("dlg-settings"),
   pickYear: document.getElementById("pick-year"),
   pickMonth: document.getElementById("pick-month"),
-  anchorDate: document.getElementById("anchor-date"),
+  anchorYear: document.getElementById("anchor-year"),
+  anchorMonth: document.getElementById("anchor-month"),
   anchorShift: document.querySelectorAll('input[name="anchor-shift"]'),
 };
+
+function fillAnchorDatePicker(year, month) {
+  els.anchorYear.innerHTML = "";
+  for (let y = year - 10; y <= year + 10; y++) {
+    const opt = document.createElement("option");
+    opt.value = String(y);
+    opt.textContent = `${y}년`;
+    if (y === year) opt.selected = true;
+    els.anchorYear.appendChild(opt);
+  }
+
+  els.anchorMonth.innerHTML = "";
+  for (let m = 1; m <= 12; m++) {
+    const opt = document.createElement("option");
+    opt.value = String(m);
+    opt.textContent = `${m}월`;
+    if (m === month) opt.selected = true;
+    els.anchorMonth.appendChild(opt);
+  }
+}
 
 function initViewFromToday() {
   const today = DateUtils.todayEpochDay();
@@ -47,8 +68,8 @@ function applyMonthPick() {
 }
 
 function openSettings() {
-  const { year, month, day } = DateUtils.fromEpochDay(store.anchorEpochDay);
-  els.anchorDate.value = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  const { year, month } = DateUtils.fromEpochDay(store.anchorEpochDay);
+  fillAnchorDatePicker(year, month);
   for (const radio of els.anchorShift) {
     radio.checked = radio.value === store.anchorShift;
   }
@@ -56,7 +77,10 @@ function openSettings() {
 }
 
 function saveSettings() {
-  const [y, m, d] = els.anchorDate.value.split("-").map(Number);
+  const y = Number(els.anchorYear.value);
+  const m = Number(els.anchorMonth.value);
+  const prevDay = DateUtils.fromEpochDay(store.anchorEpochDay).day;
+  const d = Math.min(prevDay, DateUtils.daysInMonth(y, m));
   const shift =
     [...els.anchorShift].find((r) => r.checked)?.value === ShiftType.ON_DUTY
       ? ShiftType.ON_DUTY

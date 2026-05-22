@@ -12,8 +12,8 @@ const CYCLE = [ShiftType.REGULAR, ShiftType.OFF, ShiftType.ON_DUTY, ShiftType.OF
 const STORAGE_KEY = "dadCalendar_web_v1";
 
 const defaultStore = () => ({
-  anchorEpochDay: DateUtils.todayEpochDay(),
-  anchorShift: ShiftType.REGULAR,
+  anchorEpochDay: DateUtils.toEpochDay(2026, 1, 5),
+  anchorShift: ShiftType.ON_DUTY,
 });
 
 function anchorPhase(anchorShift) {

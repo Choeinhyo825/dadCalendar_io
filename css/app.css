@@ -155,11 +155,16 @@ body {
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
   text-align: center;
   font-weight: 700;
   font-size: 14px;
   color: var(--header);
   margin-bottom: 4px;
+}
+
+.weekdays > span {
+  min-width: 0;
 }
 
 .weekdays .sun {
@@ -180,7 +185,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 48px;
+  box-sizing: border-box;
 }
 
 .day-mark {
@@ -357,14 +367,9 @@ dialog::backdrop {
   color: var(--title);
 }
 
-.field input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid var(--mark-stroke);
-  background: var(--bg);
-  color: var(--text);
+.anchor-date-picker select {
+  flex: 1;
+  min-width: 0;
 }
 
 .radio-row {
